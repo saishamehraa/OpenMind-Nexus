@@ -10,7 +10,7 @@ export class VerificationAgent {
     
     const lowerText = text.toLowerCase();
     const isHighRisk = lowerText.includes('urgent') || lowerText.includes('expose') || lowerText.includes('truth');
-    const isModerate = lowerText.includes('disaster') || lowerText.includes('experts agree');
+    const isModerate = lowerText.includes('several experts') || lowerText.includes('experts agree');
 
     let score = 90;
     let flags: string[] = [];

@@ -12,7 +12,7 @@ export class ContentIntakeAgent {
     
     const lowerText = rawText.toLowerCase();
     const isHighRisk = lowerText.includes('urgent') || lowerText.includes('expose') || lowerText.includes('truth');
-    const isModerate = lowerText.includes('disaster') || lowerText.includes('experts agree');
+    const isModerate = lowerText.includes('several experts') || lowerText.includes('experts agree');
 
     const dynamicTopic = isHighRisk ? 'conspiracy' : (isModerate ? 'politics' : 'finance');
     const dynamicSentiment = isHighRisk ? 'Highly Suspicious' : (isModerate ? 'Polarizing' : 'Neutral');

@@ -24,7 +24,7 @@ export class ExplainabilityAgent {
       riskLevel = 'High Risk Detected';
     } 
     // Medium Risk
-    else if (actualBiases.length >= 1 || verification.score <= 65 || echoRisk >= 40) {
+    else if (actualBiases.length >= 2 || verification.score <= 65 || echoRisk >= 40) {
       reasoning = `This content contains subtle indicators of bias. `;
       if (verification.score <= 65) reasoning += `The credibility is questionable (Score: ${verification.score}). `;
       recommendation = 'MONITOR';
