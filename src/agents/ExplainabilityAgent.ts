@@ -12,16 +12,19 @@ export class ExplainabilityAgent {
     let recommendation = 'ARCHIVE';
     let riskLevel = 'Low Risk Content';
     
+    // Filter out the 'Balanced Thinking' placeholder
+    const actualBiases = biases.filter(b => b.type !== 'Balanced Thinking');
+    
     // High Risk
-    if (biases.length >= 3 || verification.score <= 35 || echoRisk >= 75) {
-      reasoning = `This content was flagged because it uses multiple cognitive biases (${biases.length}). `;
+    if (actualBiases.length >= 3 || verification.score <= 35 || echoRisk >= 75) {
+      reasoning = `This content was flagged because it uses multiple cognitive biases (${actualBiases.length}). `;
       if (verification.score <= 35) reasoning += `The source has very low credibility (Score: ${verification.score}). `;
       if (echoRisk >= 75) reasoning += `It carries a severe polarization risk (${echoRisk}%). `;
       recommendation = 'ESCALATE';
       riskLevel = 'High Risk Detected';
     } 
     // Medium Risk
-    else if (biases.length >= 1 || verification.score <= 65 || echoRisk >= 40) {
+    else if (actualBiases.length >= 1 || verification.score <= 65 || echoRisk >= 40) {
       reasoning = `This content contains subtle indicators of bias. `;
       if (verification.score <= 65) reasoning += `The credibility is questionable (Score: ${verification.score}). `;
       recommendation = 'MONITOR';

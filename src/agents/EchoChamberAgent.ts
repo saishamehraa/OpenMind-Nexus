@@ -9,17 +9,17 @@ export class EchoChamberAgent {
     await new Promise(r => setTimeout(r, 1500));
     
     // Simulated risk logic based on topic/sentiment
-    const highRiskTopics = ['politics', 'election', 'scandal', 'vaccine', 'conspiracy'];
-    const isHighRisk = highRiskTopics.some(t => topic.toLowerCase().includes(t));
+    const isHighRisk = ['conspiracy', 'scandal', 'vaccine'].some(t => topic.toLowerCase().includes(t));
+    const isMediumRisk = ['politics', 'election'].some(t => topic.toLowerCase().includes(t));
     
-    const riskScore = isHighRisk ? 88 : 42;
+    const riskScore = isHighRisk ? 88 : (isMediumRisk ? 55 : 15);
 
     bandOrchestrator.postMessage('Echo Chamber', {
       status: 'Polarization risk calculated',
       findings: {
         polarizationRiskScore: riskScore,
-        reinforcementRisk: isHighRisk ? 'High' : 'Low',
-        audienceSusceptibility: isHighRisk ? 'Elevated' : 'Normal'
+        reinforcementRisk: isHighRisk ? 'High' : (isMediumRisk ? 'Medium' : 'Low'),
+        audienceSusceptibility: isHighRisk ? 'Elevated' : (isMediumRisk ? 'Moderate' : 'Normal')
       }
     });
 
