@@ -1,0 +1,74 @@
+[
+  {
+    "type": "Confirmation Bias",
+    "keywords": ["everyone knows", "obviously", "clearly", "it's clear that", "undeniable", "fact is"],
+    "explanation": "Confirmation bias is the tendency to search for, interpret, and recall information in a way that confirms your preexisting beliefs, while ignoring evidence that contradicts them.",
+    "suggestion": "Actively seek out credible sources that disagree with your position. Ask yourself: 'What evidence would change my mind?'"
+  },
+  {
+    "type": "Bandwagon Effect",
+    "keywords": ["everyone", "most people", "all my friends", "trending", "popular opinion", "everybody"],
+    "explanation": "The bandwagon effect is believing something because many other people believe it, regardless of your own independent analysis or the actual evidence.",
+    "suggestion": "Evaluate the actual evidence independent of how many people agree. Popular doesn't equal correct."
+  },
+  {
+    "type": "Availability Heuristic",
+    "keywords": ["I saw", "recently", "I heard", "in the news", "everywhere", "all over"],
+    "explanation": "This bias causes you to overestimate the likelihood or importance of events based on how easily examples come to mind, often due to recent exposure or vivid memories.",
+    "suggestion": "Look at actual statistics and data rather than relying on memorable examples. Consider: are you confusing salience with frequency?"
+  },
+  {
+    "type": "False Dilemma / Black-and-White Thinking",
+    "keywords": ["either", "or", "only two", "must be", "with us or against", "no middle ground", "have to choose"],
+    "explanation": "This fallacy presents only two options when in reality there are more alternatives available. It oversimplifies complex issues.",
+    "suggestion": "Look for third options, compromises, or nuanced positions. Real-world issues are rarely binary."
+  },
+  {
+    "type": "Anchoring Bias",
+    "keywords": ["initially", "first thought", "at first", "started with", "began by thinking", "original"],
+    "explanation": "Anchoring bias is the tendency to rely too heavily on the first piece of information encountered (the 'anchor') when making decisions.",
+    "suggestion": "Deliberately consider the problem from multiple starting points. Don't let your first impression dominate your thinking."
+  },
+  {
+    "type": "Appeal to Authority",
+    "keywords": ["expert said", "scientists agree", "authority", "studies show", "research proves", "doctors say"],
+    "explanation": "While experts should be considered, this fallacy occurs when you accept a claim simply because an authority figure said it, without examining the evidence yourself.",
+    "suggestion": "Check: What's the actual evidence? Are there dissenting expert opinions? Is this person an expert in this specific field?"
+  },
+  {
+    "type": "Ad Hominem",
+    "keywords": ["stupid", "idiot", "moron", "crazy", "insane", "they're just", "typical"],
+    "explanation": "Attacking the person making an argument rather than addressing the argument itself. This sidesteps the actual issue.",
+    "suggestion": "Focus on evaluating the argument's merits independent of who's making it. Even people you disagree with can make valid points."
+  },
+  {
+    "type": "Dunning-Kruger Effect",
+    "keywords": ["simple", "obvious", "easy", "common sense", "anyone can see", "doesn't take a genius"],
+    "explanation": "People with limited knowledge or expertise in a domain overestimate their understanding, while experts recognize the complexity.",
+    "suggestion": "Consider: Have you studied this topic in depth? What complexities might you be missing? Seek out expert perspectives."
+  },
+  {
+    "type": "Slippery Slope",
+    "keywords": ["if we allow", "next thing", "lead to", "eventually", "before you know", "will result in"],
+    "explanation": "Arguing that a small first step will inevitably lead to a chain of related events resulting in a significant (usually negative) effect, without evidence for such a progression.",
+    "suggestion": "Evaluate each step independently. Just because A could lead to B doesn't mean it will, or that B will lead to C."
+  },
+  {
+    "type": "Hasty Generalization",
+    "keywords": ["all", "always", "never", "every", "none", "every single"],
+    "explanation": "Drawing broad conclusions from a small or unrepresentative sample of evidence. Using absolute terms when the evidence doesn't support such certainty.",
+    "suggestion": "Use more precise language: 'some,' 'many,' 'often,' 'in this case.' Avoid sweeping generalizations unless you have comprehensive evidence."
+  },
+  {
+    "type": "Emotional Reasoning",
+    "keywords": ["feel", "feeling", "makes me", "I sense", "gut tells", "heart"],
+    "explanation": "Believing that something must be true because you feel strongly about it, rather than basing your belief on evidence or logic.",
+    "suggestion": "Separate your emotional reaction from the facts. Ask: What objective evidence supports this, independent of how I feel?"
+  },
+  {
+    "type": "Sunk Cost Fallacy",
+    "keywords": ["already invested", "spent so much", "can't give up now", "after all this", "gone too far"],
+    "explanation": "Continuing a behavior or endeavor because of previously invested resources (time, money, effort), even when it's not the best course of action going forward.",
+    "suggestion": "Evaluate your current situation based on future costs and benefits, not past investments. Past costs are gone regardless of what you do now."
+  }
+]
