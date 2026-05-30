@@ -30,6 +30,13 @@ export default function OrchestrationDashboard() {
     }
   };
 
+  const handleAction = (action: string) => {
+    alert(`[Audit Log] Action recorded: ${action}\n\nThis would normally trigger a Band webhook to downstream security systems.`);
+    setSummary(null);
+    setInputText('');
+    bandOrchestrator.clearRoom();
+  };
+
   const getAgentIcon = (role: string) => {
     switch (role) {
       case 'Content Intake': return <Database className="w-5 h-5 text-blue-500" />;
@@ -132,14 +139,20 @@ export default function OrchestrationDashboard() {
                   <div>
                     <h4 className="font-semibold text-slate-900 mb-3 text-sm uppercase tracking-wider">Required Actions</h4>
                     <div className="space-y-3">
-                      <button className="w-full py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+                      <button 
+                        onClick={() => handleAction('ESCALATE TO SECURITY TEAM')}
+                        className="w-full py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
                         <AlertTriangle className="w-4 h-4" />
                         Escalate to Security Team
                       </button>
-                      <button className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition-colors">
+                      <button 
+                        onClick={() => handleAction('ARCHIVE & IGNORE')}
+                        className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition-colors">
                         Archive & Ignore
                       </button>
-                      <button className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition-colors">
+                      <button 
+                        onClick={() => handleAction('ADD TO WATCHLIST')}
+                        className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition-colors">
                         Add to Watchlist
                       </button>
                     </div>
