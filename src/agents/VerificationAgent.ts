@@ -8,20 +8,38 @@ export class VerificationAgent {
 
     await new Promise(r => setTimeout(r, 1200));
     
-    // Simulate credibility check
-    const isCredible = source.toLowerCase().includes('reuters') || source.toLowerCase().includes('ap') || source.toLowerCase().includes('verified');
-    const score = isCredible ? 90 : 35;
+    const lowerText = text.toLowerCase();
+    const isHighRisk = lowerText.includes('urgent') || lowerText.includes('expose') || lowerText.includes('truth');
+    const isModerate = lowerText.includes('disaster') || lowerText.includes('experts agree');
+
+    let score = 90;
+    let flags: string[] = [];
+    let consistency = 'High';
+
+    if (isHighRisk) {
+      score = 25;
+      flags = ['High sensationalism', 'Unsupported claims'];
+      consistency = 'Low';
+    } else if (isModerate) {
+      score = 60;
+      flags = ['Appeal to authority', 'Missing specific attribution'];
+      consistency = 'Unknown';
+    } else {
+      score = 80;
+      flags = [];
+      consistency = 'Moderate';
+    }
 
     bandOrchestrator.postMessage('Verification', {
       status: 'Verification complete',
       findings: {
         sourceCredibilityScore: score,
-        flags: isCredible ? [] : ['Unverified domain', 'High sensationalism'],
-        factualConsistency: isCredible ? 'High' : 'Low'
+        flags: flags,
+        factualConsistency: consistency
       }
     });
 
-    return { score, isCredible };
+    return { score, flags };
   }
 }
 

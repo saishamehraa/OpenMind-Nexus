@@ -8,26 +8,42 @@ export class ExplainabilityAgent {
 
     await new Promise(r => setTimeout(r, 1000));
     
-    let reasoning = 'This content appears to be low risk.';
-    let escalation = false;
+    let reasoning = '';
+    let recommendation = 'ARCHIVE';
+    let riskLevel = 'Low Risk Content';
     
-    if (biases.length > 0 || verification.score < 50 || echoRisk > 75) {
-      reasoning = `This content was flagged because it uses ${biases.length} cognitive biases. `;
-      if (verification.score < 50) reasoning += `The source has low credibility (Score: ${verification.score}). `;
-      if (echoRisk > 75) reasoning += `It has a high polarization risk (${echoRisk}%).`;
-      escalation = true;
+    // High Risk
+    if (biases.length >= 3 || verification.score <= 35 || echoRisk >= 75) {
+      reasoning = `This content was flagged because it uses multiple cognitive biases (${biases.length}). `;
+      if (verification.score <= 35) reasoning += `The source has very low credibility (Score: ${verification.score}). `;
+      if (echoRisk >= 75) reasoning += `It carries a severe polarization risk (${echoRisk}%). `;
+      recommendation = 'ESCALATE';
+      riskLevel = 'High Risk Detected';
+    } 
+    // Medium Risk
+    else if (biases.length >= 1 || verification.score <= 65 || echoRisk >= 40) {
+      reasoning = `This content contains subtle indicators of bias. `;
+      if (verification.score <= 65) reasoning += `The credibility is questionable (Score: ${verification.score}). `;
+      recommendation = 'MONITOR';
+      riskLevel = 'Medium Risk Detected';
+    } 
+    // Low Risk
+    else {
+      reasoning = `This content appears to be factual and balanced. The source credibility is strong (Score: ${verification.score}) with no significant biases detected.`;
+      recommendation = 'ARCHIVE';
+      riskLevel = 'Low Risk Content';
     }
 
     bandOrchestrator.postMessage('Explainability', {
       status: 'Synthesis complete',
       findings: {
         summary: reasoning,
-        escalationRecommended: escalation,
+        recommendation: recommendation,
         transparencyTrace: 'Available'
       }
     });
 
-    return { reasoning, escalation };
+    return { reasoning, recommendation, riskLevel };
   }
 }
 

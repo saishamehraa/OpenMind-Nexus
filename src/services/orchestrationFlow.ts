@@ -19,7 +19,7 @@ export const runFullAnalysisWorkflow = async (rawText: string, metadata: any) =>
   bandOrchestrator.postMessage('Orchestrator', { 
     status: 'Analysis complete. Waiting for human review.',
     finalDecisionRequired: true,
-    recommendation: finalSummary.escalation ? 'ESCALATE' : 'ARCHIVE'
+    recommendation: finalSummary.recommendation
   });
 
   return finalSummary;

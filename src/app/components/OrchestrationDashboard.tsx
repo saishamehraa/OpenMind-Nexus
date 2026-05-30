@@ -103,7 +103,11 @@ export default function OrchestrationDashboard() {
                       </pre>
                     )}
                     {msg.content.recommendation && (
-                      <div className={`mt-3 p-2 rounded text-center font-bold ${msg.content.recommendation === 'ESCALATE' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-green-500/20 text-green-400 border border-green-500/30'}`}>
+                      <div className={`mt-3 p-2 rounded text-center font-bold ${
+                        msg.content.recommendation === 'ESCALATE' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 
+                        msg.content.recommendation === 'MONITOR' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                        'bg-green-500/20 text-green-400 border border-green-500/30'
+                      }`}>
                         RECOMMENDATION: {msg.content.recommendation}
                       </div>
                     )}
@@ -126,10 +130,20 @@ export default function OrchestrationDashboard() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  <div className={`p-4 rounded-lg border ${summary.escalation ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'}`}>
-                    <h4 className={`font-bold mb-2 flex items-center gap-2 ${summary.escalation ? 'text-red-700' : 'text-green-700'}`}>
-                      {summary.escalation ? <AlertTriangle className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
-                      Status: {summary.escalation ? 'High Risk Detected' : 'Low Risk Content'}
+                  <div className={`p-4 rounded-lg border ${
+                    summary.recommendation === 'ESCALATE' ? 'bg-red-50 border-red-200' : 
+                    summary.recommendation === 'MONITOR' ? 'bg-yellow-50 border-yellow-200' : 
+                    'bg-green-50 border-green-200'
+                  }`}>
+                    <h4 className={`font-bold mb-2 flex items-center gap-2 ${
+                      summary.recommendation === 'ESCALATE' ? 'text-red-700' : 
+                      summary.recommendation === 'MONITOR' ? 'text-yellow-700' : 
+                      'text-green-700'
+                    }`}>
+                      {summary.recommendation === 'ESCALATE' ? <AlertTriangle className="w-5 h-5" /> : 
+                       summary.recommendation === 'MONITOR' ? <Activity className="w-5 h-5" /> : 
+                       <CheckCircle className="w-5 h-5" />}
+                      Status: {summary.riskLevel}
                     </h4>
                     <p className="text-slate-700 text-sm leading-relaxed">
                       {summary.reasoning}
