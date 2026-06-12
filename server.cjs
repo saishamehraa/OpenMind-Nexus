@@ -33,11 +33,21 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// OpenRouter setup
-const openai = new OpenAI({
+// OpenAI / OpenRouter / AI/ML API / Featherless Setup
+const aimlClient = process.env.AIML_API_KEY ? new OpenAI({
+  baseURL: "https://api.aimlapi.com/v1",
+  apiKey: process.env.AIML_API_KEY
+}) : null;
+
+const featherlessClient = process.env.FEATHERLESS_API_KEY ? new OpenAI({
+  baseURL: "https://api.featherless.ai/v1",
+  apiKey: process.env.FEATHERLESS_API_KEY
+}) : null;
+
+const openrouterClient = process.env.OPENROUTER_API_KEY ? new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY
-});
+}) : null;
 
 // ============================================================================
 // MONGODB CONNECTION
@@ -255,14 +265,11 @@ app.post('/api/ai/bias-detection', async (req, res) => {
   try {
     const { text } = req.body;
 
-    // Call OpenRouter to analyze the text
-    const completion = await openai.chat.completions.create({
-      model: "google/gemini-2.5-flash-lite", // or google/gemini-2.0-flash-lite-001
-      messages: [
-        {
-          role: "system",
-          content: `You are a cognitive bias detection expert. Analyze the given text and identify any cognitive biases, logical fallacies, or biased thinking patterns. 
-          
+    const messages = [
+      {
+        role: "system",
+        content: `You are a cognitive bias detection expert. Analyze the given text and identify any cognitive biases, logical fallacies, or biased thinking patterns. 
+        
 Return your analysis as a JSON array with the following structure:
 [
   {
@@ -277,14 +284,55 @@ Return your analysis as a JSON array with the following structure:
 Common biases to check for: Confirmation Bias, Bandwagon Effect, Availability Heuristic, False Dilemma, Anchoring Bias, Appeal to Authority, Ad Hominem, Dunning-Kruger Effect, Slippery Slope, Hasty Generalization, Emotional Reasoning, Sunk Cost Fallacy.
 
 If no significant biases are detected, return a single "Balanced Thinking" result.`
-        },
-        {
-          role: "user",
-          content: text
+      },
+      {
+        role: "user",
+        content: text
+      }
+    ];
+
+    let completion;
+    let providerUsed = 'None';
+
+    // Multi-Provider Fallback Cascade (Sponsors -> Current Implementation)
+    try {
+      if (aimlClient) {
+        providerUsed = 'AI/ML API (Sponsor)';
+        completion = await aimlClient.chat.completions.create({
+          model: "meta-llama/Llama-3-8b-chat-hf", // Or another model specified in the kickoff
+          messages,
+          temperature: 0.7,
+        });
+      } else {
+        throw new Error('AI/ML API client not configured');
+      }
+    } catch (err1) {
+      console.log(`[Failover] ${providerUsed} failed or unconfigured, trying Featherless AI...`);
+      try {
+        if (featherlessClient) {
+          providerUsed = 'Featherless AI (Sponsor)';
+          completion = await featherlessClient.chat.completions.create({
+            model: "meta-llama/Meta-Llama-3-8B-Instruct", // Or another model specified in the kickoff
+            messages,
+            temperature: 0.7,
+          });
+        } else {
+          throw new Error('Featherless AI client not configured');
         }
-      ],
-      temperature: 0.7,
-    });
+      } catch (err2) {
+        console.log(`[Failover] Featherless AI failed or unconfigured, falling back to reliable OpenRouter/Gemini...`);
+        providerUsed = 'OpenRouter / Gemini (Fallback)';
+        if (!openrouterClient) throw new Error('No AI providers are configured or available.');
+        
+        completion = await openrouterClient.chat.completions.create({
+          model: "google/gemini-2.5-flash-lite",
+          messages,
+          temperature: 0.7,
+        });
+      }
+    }
+
+    console.log(`[AI Strategy] Successfully generated analysis via: ${providerUsed}`);
 
     const results = JSON.parse(completion.choices[0].message.content);
 

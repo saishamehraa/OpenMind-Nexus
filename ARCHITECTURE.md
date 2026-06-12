@@ -54,7 +54,14 @@ Our architecture shifted from a monolithic API approach to a decoupled Multi-Age
 ## 🗄️ Extending the Agent System
 To add a new agent, you simply create a new class in `src/agents/` that subscribes/posts to the `bandOrchestrator`. Because Band acts as the central communication bus, you do not need to modify the internal logic of the existing agents.
 
-## 🔌 API Layer (Legacy / Analytics)
-While the core analysis now uses the Multi-Agent system, the legacy feed and analytics still utilize the Express.js backend (if configured) for data persistence.
+## 🔌 API Layer & Multi-Provider Cascade
+While the core analysis now uses the Multi-Agent system, the Express.js backend provides a highly resilient LLM connection for the agents using a **Zero-Downtime Fallback Cascade**.
+
+To ensure 100% uptime during hackathon judging, the `/api/ai/bias-detection` endpoint cascades through multiple AI providers:
+1. **Tier 1 (Sponsor)**: AI/ML API (Llama 3)
+2. **Tier 2 (Sponsor)**: Featherless AI (Llama 3)
+3. **Tier 3 (Fallback)**: OpenRouter / Gemini Flash Lite
+
+If a primary provider API key is missing or credits run out during a live demo, the server transparently catches the error and switches to the next available tier without interrupting the UI.
 
 *(Refer to DEPLOYMENT.md for setting up the MongoDB backend)*

@@ -64,7 +64,12 @@ When a suspicious viral article, social media post, or internal message enters t
 - Simulated Band Client Integration (`src/services/bandOrchestrator.ts`)
 
 **Backend (Production Setup Ready):**
-- Express.js, MongoDB Atlas, OpenAI API
+- Express.js, MongoDB Atlas
+- **Hackathon Multi-Provider AI Strategy**:
+  1. **Tier 1 (Sponsor)**: AI/ML API (`meta-llama/Llama-3-8b-chat-hf`)
+  2. **Tier 2 (Sponsor)**: Featherless AI (`meta-llama/Meta-Llama-3-8B-Instruct`)
+  3. **Tier 3 (Fallback)**: OpenRouter / Gemini API
+*(The backend gracefully cascades across these providers to ensure 100% uptime during judging)*
 
 ## 🤝 Contributing
 This is a hackathon project, but we welcome contributions!
